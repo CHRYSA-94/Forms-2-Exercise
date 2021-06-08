@@ -1,0 +1,35 @@
+.form-container {
+  width: 800px;
+  margin: auto;
+  margin-top: 25px;
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.right-field {
+  margin-left: 20px;
+}
+
+.bottom-space {
+  margin-bottom: 20px;
+}
+
+.right-arrow {
+  font-size: 13px;
+  height:auto;
+}
+
+.error-message {
+  color: red;
+}
+
+
+
+// .form-item {
+
+// }

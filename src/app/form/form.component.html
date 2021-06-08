@@ -1,0 +1,224 @@
+<div class="form-container">
+<div class="form-item">
+  <form
+  [formGroup]="myForm"
+  (ngSubmit)= "onSubmit()">
+    <div class="row bottom-space">
+      <button mat-raised-button (click)="onReset()" type="button">Reset <mat-icon> close</mat-icon></button>
+    </div>
+    <mat-card formGroupName= "billingAddress">
+      <mat-card-header>
+        <mat-card-title>Billing Address</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="row">
+          <div >
+            <mat-form-field appearance="standard">
+              <mat-label>First Name</mat-label>
+              <input matInput  required formControlName="firstName">
+            </mat-form-field>
+            <p class="error-message"
+            *ngIf="billingFirstName.invalid && billingFirstName.touched">First Name ir required!</p>
+          </div>
+          <div>
+            <mat-form-field appearance="standard" class="right-field">
+              <mat-label>Last Name</mat-label>
+              <input matInput  required formControlName="lastName">
+            </mat-form-field>
+            <p class="error-message"
+            *ngIf="billingLastName.invalid && billingLastName.touched">Last Name ir required!</p>
+          </div>
+        </div>
+        <div class="row">
+          <div >
+            <mat-form-field appearance="standard">
+              <mat-label>Address Line 1</mat-label>
+              <input matInput  required formControlName="address1">
+            </mat-form-field>
+            <p class="error-message"
+            *ngIf="billingAddress.invalid && billingAddress.touched">Address ir required!</p>
+          </div>
+        </div>
+        <div class="row">
+          <mat-form-field appearance="standard">
+            <mat-label>Address Line 2</mat-label>
+            <input matInput  formControlName="address2" >
+          </mat-form-field>
+        </div>
+        <div class="row">
+          <div>
+            <mat-form-field appearance="standard">
+              <mat-label>City/District</mat-label>
+              <input matInput  required  formControlName="city">
+            </mat-form-field>
+            <p class="error-message"
+            *ngIf="billingCity.invalid && billingCity.touched">City ir required!</p>
+          </div>
+          <div>
+            <mat-form-field appearance="standard" class="right-field">
+              <mat-label>Province/State</mat-label>
+              <input matInput  required  formControlName="state">
+            </mat-form-field>
+            <p class="error-message"
+            *ngIf="billingState.invalid && billingState.touched">State ir required!</p>
+          </div>
+
+        </div>
+        <div class="row">
+          <div>
+            <mat-form-field appearance="standard">
+              <mat-label>Country</mat-label>
+              <input matInput  required  formControlName="country">
+            </mat-form-field>
+            <p class="error-message"
+            *ngIf="billingCountry.invalid && billingCountry.touched">Country ir required!</p>
+          </div>
+          <div>
+            <mat-form-field appearance="standard" class="right-field">
+              <mat-label>Postal Code</mat-label>
+              <input matInput #billingPCode  required  maxlength="5" formControlName="postalCode" >
+              <mat-hint align="end">{{billingPCode.value.length}}/5</mat-hint>
+            </mat-form-field>
+            <p class="error-message"
+            *ngIf="billingPostalCode.invalid && billingPostalCode.touched && billingPostalCode.pristine">Postal Code ir required!</p>
+            <p class="error-message"
+            *ngIf="billingPostalCode.invalid && billingPostalCode.errors? billingPostalCode.errors.notANumber : false ">Please enter numerically value</p>
+          </div>
+
+        </div>
+      </mat-card-content>
+      </mat-card>
+      <div class="row bottom-space">
+        <mat-checkbox formControlName='isSameShippingAddress'><h3>My shipping address is same as my billing address.</h3></mat-checkbox>
+      </div>
+      <div  class="row bottom-space">
+      <mat-radio-group formControlName='createAccount'>
+        <mat-radio-button value="1">Create Account</mat-radio-button>
+        <mat-radio-button value="2" class="right-field">Checkout as a Guest</mat-radio-button>
+      </mat-radio-group>
+      </div>
+
+    <mat-card
+    *ngIf="!isSameShippingAddress.value"
+    class="bottom-space"  formGroupName= "shippingAddress">
+      <mat-card-header>
+        <mat-card-title>Shipping Address</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="row">
+          <mat-form-field appearance="standard">
+            <mat-label>First Name </mat-label>
+            <input matInput  required formControlName="firstName">
+            <mat-error *ngIf="shippingFirstName.invalid">{{getErrorMessage(shippingFirstName)}}</mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="standard" class="right-field">
+            <mat-label>Last Name</mat-label>
+            <input matInput  required  formControlName="lastName">
+            <mat-error *ngIf="shippingLastName.invalid">{{getErrorMessage(shippingLastName)}}</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="row">
+          <mat-form-field appearance="standard">
+            <mat-label>Address Line 1</mat-label>
+            <input matInput  required  formControlName="address1">
+            <mat-error *ngIf="shippingAddress.invalid">{{getErrorMessage(shippingAddress)}}</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="row">
+          <mat-form-field appearance="standard">
+            <mat-label>Address Line 2</mat-label>
+            <input matInput   formControlName="address2">
+          </mat-form-field>
+        </div>
+        <div class="row">
+          <mat-form-field appearance="standard">
+            <mat-label>City/District</mat-label>
+            <input matInput  required formControlName="city">
+            <mat-error *ngIf="shippingCity.invalid">{{getErrorMessage(shippingCity)}}</mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="standard" class="right-field">
+            <mat-label>Province/State</mat-label>
+            <input matInput  required formControlName="state">
+            <mat-error *ngIf="shippingState.invalid">{{getErrorMessage(shippingState)}}</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="row">
+          <mat-form-field appearance="standard">
+            <mat-label>Country</mat-label>
+            <input matInput  required formControlName="country">
+            <mat-error *ngIf="shippingCountry.invalid">{{getErrorMessage(shippingCountry)}}</mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="standard" class="right-field">
+            <mat-label>Postal Code</mat-label>
+            <input matInput #shippingPCode  required maxlength="5" formControlName="postalCode" >
+            <mat-error *ngIf="shippingPostalCode.invalid" align="start">{{getErrorMessage(shippingPostalCode)}}</mat-error>
+            <mat-hint align="end">{{shippingPCode.value.length}}/5</mat-hint>
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+      </mat-card>
+
+      <mat-card
+      *ngIf= "createAccount.value === '1'"
+      class="bottom-space" >
+        <mat-card-content formGroupName="accountInfo">
+          <div class="row">
+            <mat-form-field appearance="standard">
+              <mat-label>Email</mat-label>
+              <input matInput  required formControlName="email">
+              <mat-error *ngIf="email.invalid">{{getErrorMessage(email)}}</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field appearance="standard">
+              <mat-label>Password</mat-label>
+              <input matInput  required formControlName="password" type="password">
+              <mat-error *ngIf="password.invalid">{{getErrorMessage(password)}}</mat-error>
+            </mat-form-field>
+            <div>
+              <mat-form-field appearance="standard" class="right-field">
+                <mat-label>Confirm Password</mat-label >
+                <input matInput  required formControlName="confirmPassword" type="password" >
+                <!-- <mat-error *ngIf="confirmPassword.invalid">{{getErrorMessage(confirmPassword)}}</mat-error> -->
+              </mat-form-field>
+              <p class="error-message"
+              *ngIf="confirmPassword.invalid && confirmPassword.touched && confirmPassword.pristine"> Confirm password required</p>
+              <p class="error-message"
+              *ngIf="confirmPassword.touched && confirmPassword.errors?confirmPassword.errors.differentPassword : false  && confirmPassword.dirty"> Please put the same value as that of password</p>
+              <p class="error-message"
+              *ngIf=" confirmPassword.touched && confirmPassword.errors? confirmPassword.errors.passwordRequired : false && !confirmPassword.pristine"> First put a password value!</p>
+            </div>
+          </div>
+          <div class="row">
+            <p>Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character (@$!%*£?&)</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+      <mat-card
+      *ngIf= "createAccount.value === '2'"
+      class="bottom-space">
+        <mat-card-content>
+          <div >
+            <mat-form-field appearance="standard">
+              <mat-label>Email</mat-label>
+              <input matInput  required formControlName="guestEmail">
+            </mat-form-field>
+            <p class="error-message"
+            *ngIf="guestEmail.pristine && guestEmail.touched">Email is required</p>
+            <p class="error-message"
+            *ngIf="guestEmail.invalid && guestEmail.dirty">Invalid email</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+      <div class="row">
+        <button mat-raised-button color="primary" type="submit" (click)="onSubmit">Next <mat-icon class="right-arrow">arrow_forward_ios</mat-icon></button>
+      </div>
+
+  </form>
+
+
+</div>
+<div class="form-item">
+
+</div>
+</div>

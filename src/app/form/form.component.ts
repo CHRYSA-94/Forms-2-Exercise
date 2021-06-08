@@ -103,8 +103,6 @@ export class FormComponent implements OnInit {
     }
   }
 
-
-
   getErrorMessage(controlName) {
     if (controlName.hasError('required')) {
       return 'This value is required';

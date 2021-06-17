@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-form',
@@ -8,44 +9,101 @@ import { BehaviorSubject } from 'rxjs';
   styleUrls: ['./form.component.scss']
 })
 export class FormComponent implements OnInit {
+  testValue = "text for testing";
+  moneyList = [
+    {value: 54.2523, currencyCode:"EUR"},
+    {value: 2.546, currencyCode:"USD"},
+    {value: 6, currencyCode:"EUR"},
+    {value: 12.568, currencyCode:"EUR"},
+    {value: 10, currencyCode:"JPY"},
+  ];
+  currentCurrency = "EUR"
   myForm: FormGroup;
   formData = new BehaviorSubject<{}>({});
-  constructor() { }
+  errorMessages = {
+    required : 'This value is required',
+    email : 'Not a valid email',
+    minlength : 'Password requires at least 8 characters',
+    invalidPassword : 'Not valid password',
+    differentPassword : 'Please put the same value as that of password ',
+    notANumber : 'Please enter numerically value ',
+    passwordRequired : 'First put a password value!'
+  };
+
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
-    this.myForm = new FormGroup({
-      'billingAddress': new FormGroup({
-        'firstName': new FormControl(null,[Validators.required]),
-        'lastName': new FormControl(null,[Validators.required]),
-        'address1': new FormControl(null,[Validators.required]),
-        'address2': new FormControl(null),
-        'city': new FormControl(null,[Validators.required]),
-        'state': new FormControl(null,[Validators.required]),
-        'country': new FormControl(null,[Validators.required]),
-        'postalCode': new FormControl(null,[Validators.required, Validators.maxLength(5), this.validateIsNumber.bind(this)]),
-      }),
-      'isSameShippingAddress': new FormControl(false),
-      'createAccount':new FormControl('1'),
-      'shippingAddress': new FormGroup({
-        'firstName': new FormControl(null,[Validators.required]),
-        'lastName': new FormControl(null,[Validators.required]),
-        'address1': new FormControl(null,[Validators.required]),
-        'address2': new FormControl(null),
-        'city': new FormControl(null,[Validators.required]),
-        'state': new FormControl(null,[Validators.required]),
-        'country': new FormControl(null,[Validators.required]),
-        'postalCode': new FormControl(null,[Validators.required,Validators.maxLength(5), this.validateIsNumber.bind(this)]),
-      }),
-      'accountInfo': new FormGroup({
-        'email': new FormControl(null,[Validators.required,Validators.email]),
-        'password': new FormControl(null,[Validators.required,Validators.minLength(8),this.validPassword]),
-        'confirmPassword': new FormControl(null,[Validators.required,Validators.minLength(8),this.validConfirmPassword.bind(this)])
-      }),
-      'guestEmail': new FormControl(null,[Validators.required,Validators.email])
-    })
 
+    this.initializeForm()
+    // this.email.valueChanges.pipe(debounceTime(1000)).subscribe(val =>{
 
+    // })
   }
+
+  initializeForm() {
+    this.myForm = this.fb.group({
+      'billingAddress': this.fb.group({
+        'firstName':['',Validators.required],
+        'lastName': ['',Validators.required],
+        'address1': ['',Validators.required],
+        'address2': [''],
+        'city': ['',Validators.required],
+        'state': ['',Validators.required],
+        'country': ['',Validators.required],
+        'postalCode': ['',Validators.required, Validators.maxLength(5), this.validateIsNumber.bind(this)],
+      }),
+      'isSameShippingAddress': [false],
+      'createAccount':['1'],
+      'shippingAddress': this.fb.group({
+        'firstName': ['',Validators.required],
+        'lastName': ['',Validators.required],
+        'address1': ['',Validators.required],
+        'address2': [''],
+        'city': ['',Validators.required],
+        'state': ['',Validators.required],
+        'country': ['',Validators.required],
+        'postalCode': ['',Validators.required,Validators.maxLength(5), this.validateIsNumber.bind(this)],
+      }),
+      'accountInfo': this.fb.group({
+        'email': ['',{validators:[Validators.required,Validators.email], updateOn:'blur'}],
+        'password': ['',{validators:[Validators.required,Validators.minLength(8),this.validPassword], updateOn:'change'}],
+        'confirmPassword': ['',{validators:[Validators.required,Validators.minLength(8),this.validConfirmPassword.bind(this)], updateOn:'blur'}]
+      }),
+      'guestEmail': ['',{validators:[Validators.required,Validators.email], updateOn:'change'}]
+    })
+  }
+  //   this.myForm = new FormGroup({
+  //     'billingAddress': new FormGroup({
+  //       'firstName': new FormControl(null,[Validators.required]),
+  //       'lastName': new FormControl(null,[Validators.required]),
+  //       'address1': new FormControl(null,[Validators.required]),
+  //       'address2': new FormControl(null),
+  //       'city': new FormControl(null,[Validators.required]),
+  //       'state': new FormControl(null,[Validators.required]),
+  //       'country': new FormControl(null,[Validators.required]),
+  //       'postalCode': new FormControl(null,[Validators.required, Validators.maxLength(5), this.validateIsNumber.bind(this)]),
+  //     }),
+  //     'isSameShippingAddress': new FormControl(false),
+  //     'createAccount':new FormControl('1'),
+  //     'shippingAddress': new FormGroup({
+  //       'firstName': new FormControl(null,[Validators.required]),
+  //       'lastName': new FormControl(null,[Validators.required]),
+  //       'address1': new FormControl(null,[Validators.required]),
+  //       'address2': new FormControl(null),
+  //       'city': new FormControl(null,[Validators.required]),
+  //       'state': new FormControl(null,[Validators.required]),
+  //       'country': new FormControl(null,[Validators.required]),
+  //       'postalCode': new FormControl(null,[Validators.required,Validators.maxLength(5), this.validateIsNumber.bind(this)]),
+  //     }),
+  //     'accountInfo': new FormGroup({
+  //       'email': new FormControl(null,{validators:[Validators.required,Validators.email], updateOn:'blur'}),
+  //       'password': new FormControl(null,{validators:[Validators.required,Validators.minLength(8),this.validPassword], updateOn:'change'}),
+  //       'confirmPassword': new FormControl(null,{validators:[Validators.required,Validators.minLength(8),this.validConfirmPassword.bind(this)], updateOn:'blur'})
+  //     }),
+  //     'guestEmail': new FormControl(null,{validators:[Validators.required,Validators.email], updateOn:'change'})
+  //   })
+  // }
+
 
   onSubmit() {
 
@@ -103,25 +161,24 @@ export class FormComponent implements OnInit {
     }
   }
 
-  getErrorMessage(controlName) {
-    if (controlName.hasError('required')) {
-      return 'This value is required';
-    } else if (controlName.hasError('email')) {
-      return 'Not a valid email'
-    } else if (controlName.hasError('minlength') ) {
-      return 'Password requires at least 8 characters'
-    } else if (controlName.hasError('invalidPassword') ) {
-      return 'Not valid password'
-    } else if (controlName.hasError('differentPassword') ) {
-      return 'Please put the same value as that of password '
-    } else if (controlName.hasError('notANumber') ) {
-      return 'Please enter numerically value '
-    } else {
-      return ''
-    }
+
+
+  // getErrorMessage(controlName) {
+  //   const errorList = []
+
+  //   if (controlName.errors) {
+  //     Object.keys(controlName.errors).map( error => {
+  //       errorList.push(this.errorMessages[error])
+  //   })
+
+  //   return errorList
+  // }
+  // }
+
+
+  get form() {
+    return this.myForm as FormGroup;
   }
-
-
   get billingAddress() {
     return this.myForm.get('billingAddress') as FormGroup;
   }
@@ -204,3 +261,5 @@ export class FormComponent implements OnInit {
 
 
 }
+
+

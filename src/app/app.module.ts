@@ -13,11 +13,15 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatIconModule} from '@angular/material/icon';
+import { HelloPipe } from './hello.pipe';
+import { CustomCurrencyPipe } from './custom-currency.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
-    FormComponent
+    FormComponent,
+    HelloPipe,
+    CustomCurrencyPipe
   ],
   imports: [
     BrowserModule,

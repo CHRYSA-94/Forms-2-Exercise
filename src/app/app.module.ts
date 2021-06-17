@@ -13,6 +13,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatIconModule} from '@angular/material/icon';
+import {MatDividerModule} from '@angular/material/divider';
 import { HelloPipe } from './hello.pipe';
 import { CustomCurrencyPipe } from './custom-currency.pipe';
 import { PermissionsPipe } from './permissions.pipe';
@@ -37,7 +38,8 @@ import { PermissionsPipe } from './permissions.pipe';
     MatFormFieldModule,
     MatInputModule,
     MatRadioModule,
-    MatIconModule
+    MatIconModule,
+    MatDividerModule
 
   ],
   providers: [],

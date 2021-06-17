@@ -228,27 +228,35 @@
         <button mat-raised-button color="primary" type="submit" (click)="onSubmit">Next <mat-icon class="right-arrow">arrow_forward_ios</mat-icon></button>
       </div>
   </form>
-</div>
-  <div>
-    <p>Application of hello pipe</p>
-    <p>{{testValue | hello}}</p>
-  </div>
-
-  <p>Application of currency pipe</p>
-  <div *ngFor="let amount of moneyList">
-    <p>{{amount | customCurrency:currentCurrency }}</p>
-  </div>
-
-
-  <div>
-    <p>Application of role pipe</p>
-    <div *ngIf="isAllowed | permissions:CheckedRole">
-      <p>Secret code</p>
-    </div>
-    <p>{{isAllowed | permissions:CheckedRole  }}</p>
-  </div>
-
   <p>Form status: {{form.status}}</p>
   <p>Form value: {{form.value | json}}</p>
+
+</div>
+
+  <mat-card >
+    <mat-card-header>
+      <mat-card-title class="mat-title">Pipe exercises</mat-card-title>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <mat-card-content class="pipe-container">
+      <div>
+        <p class="mat-subheading-2">Application of hello pipe</p>
+        <p>{{testValue | hello}}</p>
+      </div>
+      <div>
+        <p class="mat-subheading-2">Application of currency pipe</p>
+        <div *ngFor="let amount of moneyList">
+          <p>{{amount | customCurrency:currentCurrency }}</p>
+        </div>
+      </div>
+      <div>
+        <p class="mat-subheading-2">Application of role pipe</p>
+        <div *ngIf="isAllowed | permissions:CheckedRole">
+          <p>Secret code</p>
+        </div>
+        <p>{{isAllowed | permissions:CheckedRole  }}</p>
+      </div>
+    </mat-card-content>
+  </mat-card>
 
 </div>

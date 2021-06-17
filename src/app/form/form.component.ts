@@ -10,7 +10,7 @@ import { RoleService } from '../role.service';
   styleUrls: ['./form.component.scss']
 })
 export class FormComponent implements OnInit {
-  isAllowed;
+
   CheckedRole;
   testValue = "text for testing";
   moneyList = [
@@ -44,8 +44,7 @@ export class FormComponent implements OnInit {
 
     // })
 
-    this.isAllowed = this.roleService.getRole('maintainer');
-    this.CheckedRole = this.roleService.getRole('admin');
+    this.CheckedRole = this.roleService.getRole('maintainer');
   }
 
   initializeForm() {

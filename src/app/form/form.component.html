@@ -2,7 +2,8 @@
 <div class="form-item">
   <form
   [formGroup]="myForm"
-  (ngSubmit)= "onSubmit()">
+  (ngSubmit)= "onSubmit()"
+  *ngIf="[1,3] | permissions:CheckedRole">
     <div class="row bottom-space">
       <button mat-raised-button (click)="onReset()" type="button">Reset <mat-icon> close</mat-icon></button>
     </div>
@@ -251,10 +252,10 @@
       </div>
       <div>
         <p class="mat-subheading-2">Application of role pipe</p>
-        <div *ngIf="isAllowed | permissions:CheckedRole">
+        <div>
           <p>Secret code</p>
         </div>
-        <p>{{isAllowed | permissions:CheckedRole  }}</p>
+        <!-- <p>{{[1,3] | permissions:CheckedRole  }}</p> -->
       </div>
     </mat-card-content>
   </mat-card>

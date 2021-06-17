@@ -15,13 +15,15 @@ import {MatRadioModule} from '@angular/material/radio';
 import {MatIconModule} from '@angular/material/icon';
 import { HelloPipe } from './hello.pipe';
 import { CustomCurrencyPipe } from './custom-currency.pipe';
+import { PermissionsPipe } from './permissions.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     FormComponent,
     HelloPipe,
-    CustomCurrencyPipe
+    CustomCurrencyPipe,
+    PermissionsPipe
   ],
   imports: [
     BrowserModule,

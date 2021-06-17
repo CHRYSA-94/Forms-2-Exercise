@@ -239,6 +239,15 @@
     <p>{{amount | customCurrency:currentCurrency }}</p>
   </div>
 
+
+  <div>
+    <p>Application of role pipe</p>
+    <div *ngIf="isAllowed | permissions:CheckedRole">
+      <p>Secret code</p>
+    </div>
+    <p>{{isAllowed | permissions:CheckedRole  }}</p>
+  </div>
+
   <p>Form status: {{form.status}}</p>
   <p>Form value: {{form.value | json}}</p>
 

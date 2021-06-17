@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { RoleService } from '../role.service';
 
 @Component({
   selector: 'app-form',
@@ -9,6 +10,8 @@ import { debounceTime } from 'rxjs/operators';
   styleUrls: ['./form.component.scss']
 })
 export class FormComponent implements OnInit {
+  isAllowed;
+  CheckedRole;
   testValue = "text for testing";
   moneyList = [
     {value: 54.2523, currencyCode:"EUR"},
@@ -30,7 +33,9 @@ export class FormComponent implements OnInit {
     passwordRequired : 'First put a password value!'
   };
 
-  constructor(private fb: FormBuilder) { }
+  constructor(
+    private fb: FormBuilder,
+    private roleService: RoleService ) { }
 
   ngOnInit(): void {
 
@@ -38,6 +43,9 @@ export class FormComponent implements OnInit {
     // this.email.valueChanges.pipe(debounceTime(1000)).subscribe(val =>{
 
     // })
+
+    this.isAllowed = this.roleService.getRole('maintainer');
+    this.CheckedRole = this.roleService.getRole('admin');
   }
 
   initializeForm() {
